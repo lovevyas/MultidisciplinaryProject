@@ -1,0 +1,88 @@
+html {
+  color-scheme: dark;
+  /* --mdc-theme-primary: #ff3e00; */
+  /* --mdc-theme-secondary: #434345; */
+  /* --mdc-theme-background: #fff; */
+  /* --mdc-theme-surface: #fff; */
+  --mdc-on-surface: #212125;
+}
+
+body {
+  background: #000;
+  margin: 0 !important;
+  font-family: "Roboto Mono";
+}
+
+ol,
+ul {
+  margin-block-start: 0;
+  margin-block-end: 0;
+  padding-inline-start: 1rem;
+}
+
+.full {
+  width: 1000px;
+  margin: unset;
+}
+
+@media (width <=840px) {
+  .hide-on-tablet {
+    display: none !important;
+  }
+}
+
+@media (width <=600px) {
+  .full {
+    width: unset;
+  }
+
+  .hide-on-mobile {
+    display: none !important;
+  }
+}
+
+.hide-on-mobile,
+.hide-on-tablet {
+  display: block;
+}
+
+.codemirror-wrapper {
+  /* height: 100%; */
+}
+
+.mdc-card {
+  overflow: hidden;
+}
+
+#assignment p img {
+  width: 100%;
+  float: left;
+  max-width: 600px;
+  margin: auto;
+}
+
+#assignment pre code {
+  white-space: pre-wrap;
+  width: 100%;
+}
+
+#assignment p {
+  overflow-wrap: break-word;
+}
+
+.smui-button--color-secondary:not(:disabled):hover .mdc-button__icon {
+  color: #ff3e00
+}
+
+.mdc-button.smui-button--color-secondary:hover {
+  color: #ff3e00
+}
+
+button[disabled] {
+  pointer-events: auto !important;
+  cursor: not-allowed !important;
+}
+
+button.mdc-button:focus {
+  outline: 1px solid #ff3e00;
+}

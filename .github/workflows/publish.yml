@@ -1,0 +1,67 @@
+name: Build and Publish to Cloudflare Pages
+
+on:
+  workflow_dispatch:
+  pull_request:
+    branches:
+      - main
+  push:
+    branches:
+      - main
+      - develop
+      - 'release/*'
+env:
+  NODE_VER: 20.x
+  
+jobs:
+  publish:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      deployments: write
+    name: Publish to Cloudflare Pages
+    steps:
+      - name: Checkout
+        if: github.event_name != 'pull_request'
+        uses: actions/checkout@v4
+        
+      - name: Checkout Pull Request
+        if: github.event_name == 'pull_request'
+        uses: actions/checkout@v4
+        with:
+          ref: ${{ github.event.pull_request.head.sha }}
+      
+      - name: Setup Node.js ${{ env.NODE_VER }}
+        uses: actions/setup-node@v4
+        with:
+          node-version: ${{ env.NODE_VER }}
+      
+      # - name: Install Wrangler
+      #   run: npm install -g @cloudflare/wrangler
+        
+      - name: Install Dependencies
+        run: npm i
+        
+      - name: Build
+        env:
+          VITE_BACKEND_URL: ${{ vars.VITE_BACKEND_URL }}
+        run: npm run build --if-present
+      
+      - name: Publish to Cloudflare Pages
+        uses: cloudflare/pages-action@v1
+        if: github.actor != 'dependabot[bot]'
+        id: publish
+        with:
+          accountId: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
+          apiToken: ${{ secrets.CLOUDFLARE_API_TOKEN }}
+          directory: .svelte-kit/cloudflare
+          gitHubToken: ${{ secrets.GITHUB_TOKEN }}
+          projectName: 'ondroid-org'
+          wranglerVersion: '3'
+      
+      - name: Outputs
+        run: |
+          echo "ID: ${{ steps.publish.outputs.id }}"
+          echo "URL: ${{ steps.publish.outputs.url }}"
+          echo "Environment: ${{ steps.publish.outputs.environment }}"
+          echo "Alias: ${{ steps.publish.outputs.alias }}"

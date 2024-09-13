@@ -1,0 +1,18 @@
+# OS
+.DS_Store
+Thumbs.db
+
+# IDE
+.idea
+/autolab-fe.iml
+.vscode
+
+# Other
+.vercel
+.svelte-kit
+
+# Node
+node_modules
+.nuxt
+.env
+dist
